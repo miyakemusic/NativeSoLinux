@@ -9,6 +9,7 @@ pthread_cond_t testFuncCond, waitInterruptCond;
 void * testFunc( void * arg ) {
 	while(true) {
 		pthread_mutex_lock(&testFuncMutex);
+		printf("wait testFunc\n");
 		pthread_cond_wait(&testFuncCond, &testFuncMutex);
 		pthread_mutex_unlock(&testFuncMutex);
 		for (int i = 0; i < 5; i++){
@@ -29,7 +30,7 @@ bool init() {
 	 pthread_cond_init(&testFuncCond, NULL);
 	 pthread_cond_init(&waitInterruptCond, NULL);
 	 pthread_create(&thread, NULL, testFunc, NULL);
-
+printf("Initialized");
 	 return true;
 }
 
@@ -59,6 +60,7 @@ bool readBlock(unsigned long addr, unsigned char* data, int size) {
 int waitInterrupt()
 {
 	pthread_mutex_lock(&waitInterruptMutex);
+	printf("wait interrupt\n");
 	pthread_cond_wait(&waitInterruptCond, &waitInterruptMutex);
 	pthread_mutex_unlock(&waitInterruptMutex);
 
